@@ -1,0 +1,145 @@
+1. Робота з бренчами
+Q: створити бренчу "architecture" з "master",      переключитися в неї
+A: create new repository on GitHub - "6-vcs- advanced"
+   mkdir 6-vcs-advanced
+   cd 6-vcs-advanced
+   git clone https://github.com/StasLakhov/6-vcs- advanced
+   git branch architecture
+   git checkout architecture
+   (git checkout -b architecture - to create and switch to)
+Q: створити структуру в файловій системі
+A: touch index.html
+   mkdis assets uploads   
+   git status
+   git add .
+   git status
+   git commit -m "file structure"
+   git push origin architecture
+   touch assets/all.js
+   touch assets/css.js
+   git status
+   git add .
+   git status
+   git commit -m "file structure"
+   git push origin architecture   
+
+Q: зробити щоб ігнорилися всі файли з папки uploads/ (сама папка має бути в репозиторії)
+A: touch uploads/.keep
+   git add .
+   git commit -m "ignore"
+   git push origin architecture
+   echo -e "uploads/*\n !.keep" > .gitignore
+   git add .
+   git commit -m "gitignore file"
+   git push origin architecture
+   touch uploads/some.txt
+   git add .
+   git commit -m "file to be ignored"
+   git push origin architecture
+   git checkout master
+   git merge architecture
+   git branch -d architecture
+
+2. Rebase
+Q: відколоти бренч
+A: git checkout -b rebase-branch
+
+Q: зробити декілька комітів в master
+A: git touch rebase1.txt
+   git add .
+   git commit -m "rebase 1"
+   git touch rebase2.txt
+   git add .
+   git commit -m "rebase 2"
+   git touch rebase3.txt
+   git add .
+   git commit -m "rebase 3"
+   git push origin rebase-branch
+   git checkout master
+   git rebase master
+Q: зробити коміти в свою бренчу
+A: git checkout rebase-branch
+   git touch rebase4.txt
+   git add .
+   git commit -m "rebase 4"
+Q: зробити merge в master
+A: git checkout master
+   git merge rebase-branch
+Q: видалити бренч
+A: git checkout -d rebase-branch
+
+3. Tag
+Q: зробити декілька комітів в master
+A: git touch tag1.txt
+   git add .
+   git commit -m "tag 1"
+   git touch tag2.txt
+   git add .
+   git commit -m "tag 2"
+   git touch tag3.txt
+   git add .
+   git commit -m "tag 3"
+Q: створити мітку
+A: git tag -a v1.1 -m "my first tag"
+   git tag
+Q: залити мітку в репозиторій
+A: git push origin --tags
+
+4. Submodule (advanced level)
+Q: додати любий submodule
+A: git submodule add https://github.com/cursor-education/site
+Q: злити зміни в master
+A: git add .
+   git commit -m "add submodule"
+   git push origin
+
+5. Git Pages (advanced level)
+Q: створити бренч "gh-pages", вести роботу в ньому
+A: git checkout -b gh-pages
+Q: додати файл index.html з любим контентом (не пустий файл)
+A: echo some text > index.html
+Q: коміт & пуш
+A: git add .
+   git commit -m "gh-pages index.html"
+   git push origin gh-pages
+   git checkout master
+   git merge gh-pages
+   git push origin
+Q: перейти по лінку: http://<username>.github.io/<repository-name>   
+A: https://staslakhov.github.io/6-vcs-advanced/
+Q: зробити зміни, commit & push, перевирити чи з'явилися зміни
+A: manualy changed content of index.html
+   git add .
+   git commit -m "gh-pages index.html with changes"
+   git push origin gh-pages
+   git checkout master
+   git merge gh-pages
+   git push origin
+   https://staslakhov.github.io/6-vcs-advanced/
+   changes modified
+
+6. Conflict (advanced level)
+Q: в master зробити зміни в file.txt
+A: make some changes   
+   git add .
+   git commit -m "conf try 1"
+Q: в branch зробити зміни в file.txt (несумісні з попередніми - наприклад повна заміна контенту файлу)
+A: git checkout conflict-branch
+   make some changes
+   git add .
+   git commit -m "conf try 1"
+Q: змерджити бренч в мастер
+A: git checkout master
+   git merge conflict-branch
+RESULT: CONFLICT (content): Merge conflict in some.txt
+Automatic merge failed; fix conflicts and then commit the result.
+
+Q: спробувати використати git merge --abort
+A: git merge --abort
+   git add .
+   git commit -m "conflict solve"
+   git push origin
+   git checkout conflict-branch
+   git push origin conflict-branch
+   git checkout master
+   git merge conflict-branch
